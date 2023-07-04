@@ -9,8 +9,6 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
-#define Y cout<<"YES\n"
-#define N cout<<"NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -103,44 +101,6 @@ vector<pair<int, int>> prime_factorisation(ll n)
         primes.push_back({n, 1});
     return primes;
 }
-ll nCr(ll n, ll r)
-{
-    ll o;
-    if (n < r)
-    {
-        swap(n, r);
-        nCr(n, r);
-    }
-    if (r == 1)
-    {
-        cout << n << endl;
-
-        return n;
-    }
-
-    return o = (n * nCr(n - 1, r - 1)) / r;
-}
-const int num1 = 1e5 + 10;
-vector<int> graph[num1];
-bool vis[num1];
-void dfs(int vertex)
-{
-    vis[vertex] = 1;
-    cout << vertex << "->";
-    for (int i = 0; i < graph[vertex].size(); i++)
-    {
-        int child = graph[vertex][i];
-        if (vis[child] == 0)
-            dfs(child);
-    }
-    // OR this for loop
- 
-    // for (int child : graph[vertex])
-    // {
-    //     if (vis[child] == 0)
-    //         dfs(child);
-    // }
-}
 void SelectionSort(vector<int> &arr)
 {
     int n=arr.size();
@@ -149,7 +109,7 @@ void SelectionSort(vector<int> &arr)
         int minimum_index=i;
         for (int j = i; j < n; j++)
         {
-            if(arr[i]>arr[j])
+            if(arr[minimum_index]>arr[j])
             {
                 minimum_index=j;
             }
