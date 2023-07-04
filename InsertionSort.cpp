@@ -22,10 +22,10 @@ using namespace std;
 #define max4(a, b, c, d) max(a, max(b, max(c, d)))
 #define Upper(a) transform(a.begin(), a.end(), a.begin(), ::toupper)
 #define Lower(a) transform(a.begin(), a.end(), a.begin(), ::tolower)
-#define setbit(x,k) (x |=(1LL<<k))
-#define usetbit(x,k) (x &= ~(1LL<<k))
-#define checkbit(x,k) (x & (1LL<<k))
-#define togglebit(x,k) (x ^ (1LL<<k))
+#define setbit(x, k) (x |= (1LL << k))
+#define usetbit(x, k) (x &= ~(1LL << k))
+#define checkbit(x, k) (x & (1LL << k))
+#define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 #define fast                          \
     ios_base::sync_with_stdio(false); \
@@ -51,7 +51,7 @@ int binary_search(vector<int> vec, int querry)
 {
     int low, mid, high;
     low = 0, high = vec.size() - 1;
-    cout<<high<<"high"<<endl;
+    cout << high << "high" << endl;
     while (low <= high)
     {
         mid = low + (high - low) / 2;
@@ -103,42 +103,37 @@ vector<pair<int, int>> prime_factorisation(ll n)
 }
 void MergeSort(vector<int> &arr)
 {
-    int n=arr.size();
-    for(int i=0;i<n-1;i++)
+    int n = arr.size();
+    for (int i = 1; i < n; i++)
     {
-        int minimum_index=i;
-        for (int j = i; j < n; j++)
+        int j=i;
+        while (j>0)
         {
-            if(arr[minimum_index]>arr[j])
-            {
-                minimum_index=j;
-            }
+            if(arr[j]<arr[j-1])
+            swap(arr[j],arr[j-1]);
+            j--;
         }
-        swap(arr[minimum_index],arr[i]);
+        
     }
-    
 }
 int main()
 {
     int n;
-    cin>>n;
+    cin >> n;
     vector<int> array(n);
     for (int i = 0; i < n; i++)
     {
-        cin>>array[i];
+        cin >> array[i];
     }
-    cout<<"Before Sorting"<<endl;
+    cout << "Before Sorting" << endl;
     for (int i = 0; i < n; i++)
     {
-        cout<<array[i]<<" ";
+        cout << array[i] << " ";
     }
-    cout<<"After Sorting"<<endl;
-
+    cout << "\nAfter Sorting" << endl;
     MergeSort(array);
     for (int i = 0; i < n; i++)
     {
-        cout<<array[i]<<" ";
+        cout << array[i] << " ";
     }
-
-    
 }
