@@ -101,19 +101,22 @@ vector<pair<int, int>> prime_factorisation(ll n)
         primes.push_back({n, 1});
     return primes;
 }
-void MergeSort(vector<int> &arr)
+void BubbleSort(vector<int> &arr)
 {
     int n = arr.size();
-    for (int i = 1; i < n; i++)
+    int swaps = 0;
+    for (int i = 0; i < n - 1; i++)
     {
-        int j=i;
-        while (j>0)
+        for (int j = 0; j < n - 1 - i; j++)
         {
-            if(arr[j]<arr[j-1])
-            swap(arr[j],arr[j-1]);
-            j--;
+            if (arr[j] > arr[j + 1])
+            {
+                swap(arr[j], arr[j + 1]);
+                swaps++;
+            }
         }
-        
+        if(swaps==0)
+        return;
     }
 }
 int main()
@@ -130,8 +133,9 @@ int main()
     {
         cout << array[i] << " ";
     }
-    cout << "\nAfter Sorting" << endl;
-    MergeSort(array);
+    cout << "After Sorting" << endl;
+
+    BubbleSort(array);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";

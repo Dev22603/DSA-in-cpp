@@ -101,24 +101,42 @@ vector<pair<int, int>> prime_factorisation(ll n)
         primes.push_back({n, 1});
     return primes;
 }
-void MergeSort(vector<int> &arr)
+
+int PartionIndex(vector<int> &arr, int low, int high)
 {
-    int n = arr.size();
-    int swaps = 0;
-    for (int i = 0; i < n - 1; i++)
+    int pivot = arr[low];
+    int l = low;
+    int r = high;
+    while (l < r)
     {
-        for (int j = 0; j < n - 1 - i; j++)
+
+        while (l <= high-1 && arr[l] <= pivot)
         {
-            if (arr[j] > arr[j + 1])
-            {
-                swap(arr[j], arr[j + 1]);
-                swaps++;
-            }
+            l++;
         }
-        if(swaps==0)
-        return;
+        while (r >= low+1 && arr[r] > pivot)
+        {
+            r--;
+        }
+        if(l<r)
+        {
+            swap(arr[l],arr[r]);
+        }
+    }
+    swap(arr[low],arr[r]);
+    return r;
+}
+
+void QuickSort(vector<int> &arr, int low, int high)
+{
+    if (low < high)
+    {
+        int pIndex = PartionIndex(arr, low, high);
+        QuickSort(arr, low, pIndex - 1);
+        QuickSort(arr, pIndex + 1, high);
     }
 }
+
 int main()
 {
     int n;
@@ -133,9 +151,8 @@ int main()
     {
         cout << array[i] << " ";
     }
-    cout << "After Sorting" << endl;
-
-    MergeSort(array);
+    cout << "\nAfter Sorting" << endl;
+    QuickSort(array, 0, n - 1);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";
