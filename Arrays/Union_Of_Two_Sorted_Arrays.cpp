@@ -121,58 +121,85 @@ ll nCr(ll n, ll r)
     return o = (n * nCr(n - 1, r - 1)) / r;
 }
 
-void Left_Rotate_k(vector<ll> &arr, ll k)
+vector<int> findUnion(vector<int> &arr1, vector<int> &arr2, int n, int m)
 {
-    int n = arr.size();
-    k = k % n;
-    if (!k)
-        return;
-    vll temp(k);
-    for (int i = 0; i < k; i++)
+    vector<int> a;
+    int i = 0, j = 0, k = -1;
+    while (i < n && j < m)
     {
-        temp[i] = arr[i];
+        if (arr1[i] < arr2[j])
+        {
+            a.push_back(arr1[i]);
+            i++;
+            k++;
+            while (arr1[i] == a[k])
+            {
+                i++;
+            }
+        }
+        else if (arr1[i] > arr2[j])
+        {
+            a.push_back(arr2[j]);
+            j++;
+            k++;
+            while (arr2[j] == a[k])
+            {
+                j++;
+            }
+        }
+        else if (arr1[i] == arr2[j])
+        {
+            a.push_back(arr1[i]);
+            i++;
+            j++;
+            k++;
+            while (arr2[j] == a[k])
+            {
+                j++;
+            }
+            while (arr1[i] == a[k])
+            {
+                i++;
+            }
+        }
     }
-    for (int i = 0; i < n - k; i++)
+    while (i < n)
     {
-        arr[i] = arr[i + k];
+        a.push_back(arr1[i]);
+        i++;
+        k++;
+        while (arr1[i] == a[k])
+        {
+            i++;
+        }
     }
-    for (int i = n - k; i < n; i++)
+    while (j < m)
     {
-        arr[i] = temp[i - (n - k)];
+        a.push_back(arr2[j]);
+        j++;
+        k++;
+        while (arr2[j] == a[k])
+        {
+            j++;
+        }
     }
-}
-void Right_Rotate_k(vector<int> &nums, int k)
-{
-    int n = nums.size();
-    k = k % n;
-    cout << k << endl;
-    cout << n << endl;
-    if (k == 0)
-        return;
-    vector<int> temp(k);
-    for (int i = n - k; i < n; i++)
-    {
-        temp[i - (n - k)] = nums[i];
-    }
-    for (int i = n - 1; i >= n - k - 1; i--)
-    {
-        nums[i] = nums[i - k];
-    }
-    for (int i = 0; i < k; i++)
-    {
-        nums[i] = temp[i];
-    }
+    return a;
 }
 int main()
 {
-    int n, d;
-    cin >> n >> d;
-    vector<int> array(n);
+    int n, d, m;
+    cin >> n >> m;
+    vector<int> array1(n);
+    vector<int> array2(m);
     for (ll i = 0; i < n; i++)
     {
-        cin >> array[i];
+        cin >> array1[i];
     }
-    Right_Rotate_k(array, d);
+    for (ll i = 0; i < m; i++)
+    {
+        cin >> array2[i];
+    }
+    vector<int> array = findUnion(array1, array2, n, m);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";

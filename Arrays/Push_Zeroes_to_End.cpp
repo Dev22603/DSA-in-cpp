@@ -121,58 +121,63 @@ ll nCr(ll n, ll r)
     return o = (n * nCr(n - 1, r - 1)) / r;
 }
 
-void Left_Rotate_k(vector<ll> &arr, ll k)
+void PushZerosToEnd_BruteForce(vector<ll> &arr)
 {
+
     int n = arr.size();
-    k = k % n;
-    if (!k)
-        return;
-    vll temp(k);
-    for (int i = 0; i < k; i++)
+    vll temp;
+    for (int i = 0; i < n; i++)
     {
-        temp[i] = arr[i];
+        if (arr[i] != 0)
+        {
+            temp.push_back(arr[i]);
+        }
     }
-    for (int i = 0; i < n - k; i++)
+    for (int i = 0; i < temp.size(); i++)
     {
-        arr[i] = arr[i + k];
+        arr[i] = temp[i];
     }
-    for (int i = n - k; i < n; i++)
+    for (int i = temp.size(); i < n; i++)
     {
-        arr[i] = temp[i - (n - k)];
+        arr[i] = 0;
     }
 }
-void Right_Rotate_k(vector<int> &nums, int k)
+void PushZerosToEnd_Better(vector<ll> &arr)
 {
-    int n = nums.size();
-    k = k % n;
-    cout << k << endl;
-    cout << n << endl;
-    if (k == 0)
+    int n = arr.size();
+    int j = -1;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == 0)
+        {
+            j = i;
+            break;
+        }
+    }
+    if (j == -1)
+    {
         return;
-    vector<int> temp(k);
-    for (int i = n - k; i < n; i++)
-    {
-        temp[i - (n - k)] = nums[i];
     }
-    for (int i = n - 1; i >= n - k - 1; i--)
+
+    for (int i = j + 1; i < n; i++)
     {
-        nums[i] = nums[i - k];
-    }
-    for (int i = 0; i < k; i++)
-    {
-        nums[i] = temp[i];
+        if(arr[i]!=0)
+        {
+            swap(arr[i],arr[j]);
+            j++;
+        }
     }
 }
 int main()
 {
     int n, d;
-    cin >> n >> d;
-    vector<int> array(n);
+    cin >> n;
+    vector<ll> array(n);
     for (ll i = 0; i < n; i++)
     {
         cin >> array[i];
     }
-    Right_Rotate_k(array, d);
+    PushZerosToEnd_Better(array);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";
