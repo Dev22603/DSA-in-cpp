@@ -9,8 +9,6 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
-#define Y cout << "YES\n"
-#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -121,88 +119,38 @@ ll nCr(ll n, ll r)
     return o = (n * nCr(n - 1, r - 1)) / r;
 }
 
-vector<int> findUnion(vector<int> &arr1, vector<int> &arr2, int n, int m)
+int findMaxConsecutiveOnes(vector<int> &arr, int k)
 {
-    vector<int> a;
-    int i = 0, j = 0, k = -1;
-    while (i < n && j < m)
+    int n = arr.size();
+    int i = 0, j = 0, count = 0, gM = 0;
+    while (j < n)
     {
-        if (arr1[i] < arr2[j])
+        if (arr[j] == 0)
         {
-            a.push_back(arr1[i]);
-            i++;
-            k++;
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
+            count++;
         }
-        else if (arr1[i] > arr2[j])
+        while (count > k)
         {
-            a.push_back(arr2[j]);
-            j++;
-            k++;
-            while (arr2[j] == a[k])
+            // cout << i << " " << j << " " << gM << endl;
+            if (arr[i] == 0)
             {
-                j++;
+                count--;
             }
-        }
-        else if (arr1[i] == arr2[j])
-        {
-            a.push_back(arr1[i]);
-            i++;
-            j++;
-            k++;
-            while (arr2[j] == a[k])
-            {
-                j++;
-            }
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
-        }
-    }
-    while (i < n)
-    {
-        a.push_back(arr1[i]);
-        i++;
-        k++;
-        while (arr1[i] == a[k])
-        {
             i++;
         }
-    }
-    while (j < m)
-    {
-        a.push_back(arr2[j]);
         j++;
-        k++;
-        while (arr2[j] == a[k])
-        {
-            j++;
-        }
+        gM = max(j - i, gM);
     }
-    return a;
+    return gM;
 }
 int main()
 {
-    int n, d, m;
-    cin >> n >> m;
-    vector<int> array1(n);
-    vector<int> array2(m);
+    int n, k;
+    cin >> n >> k;
+    vector<int> array(n);
     for (ll i = 0; i < n; i++)
     {
-        cin >> array1[i];
+        cin >> array[i];
     }
-    for (ll i = 0; i < m; i++)
-    {
-        cin >> array2[i];
-    }
-    vector<int> array = findUnion(array1, array2, n, m);
-    int x=array.size();
-    for (int i = 0; i <x ; i++)
-    {
-        cout << array[i] << " ";
-    }
+    cout << findMaxConsecutiveOnes(array, k) << endl;
 }

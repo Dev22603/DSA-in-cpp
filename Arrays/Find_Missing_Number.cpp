@@ -9,8 +9,6 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
-#define Y cout << "YES\n"
-#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -121,88 +119,42 @@ ll nCr(ll n, ll r)
     return o = (n * nCr(n - 1, r - 1)) / r;
 }
 
-vector<int> findUnion(vector<int> &arr1, vector<int> &arr2, int n, int m)
+int missingNumber(vector<int>& arr,int N)
 {
-    vector<int> a;
-    int i = 0, j = 0, k = -1;
-    while (i < n && j < m)
+    int n=arr.size();
+    ll a=0;
+    for (int i = 0; i < n; i++)
     {
-        if (arr1[i] < arr2[j])
-        {
-            a.push_back(arr1[i]);
-            i++;
-            k++;
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
-        }
-        else if (arr1[i] > arr2[j])
-        {
-            a.push_back(arr2[j]);
-            j++;
-            k++;
-            while (arr2[j] == a[k])
-            {
-                j++;
-            }
-        }
-        else if (arr1[i] == arr2[j])
-        {
-            a.push_back(arr1[i]);
-            i++;
-            j++;
-            k++;
-            while (arr2[j] == a[k])
-            {
-                j++;
-            }
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
-        }
+        a+=arr[i];
     }
-    while (i < n)
+    return ((N*(N+1))/2-a);
+        
+}
+int missingNumber_Optimal(vector<int>& arr,int N)
+{
+    // int n=arr.size();
+    int xor1=0,xor2=0;
+    for (int i = 0; i < N-1; i++)
     {
-        a.push_back(arr1[i]);
-        i++;
-        k++;
-        while (arr1[i] == a[k])
-        {
-            i++;
-        }
+        xor1^=arr[i];
     }
-    while (j < m)
+    for (int i = 1; i <= N; i++)
     {
-        a.push_back(arr2[j]);
-        j++;
-        k++;
-        while (arr2[j] == a[k])
-        {
-            j++;
-        }
+        xor2^=i;
     }
-    return a;
+    return xor1^xor2;
+        
 }
 int main()
 {
-    int n, d, m;
-    cin >> n >> m;
-    vector<int> array1(n);
-    vector<int> array2(m);
-    for (ll i = 0; i < n; i++)
+    int n;
+    cin >> n;
+    vector<int> array(n);
+    for (ll i = 0; i < n-1; i++)
     {
-        cin >> array1[i];
+        cin >> array[i];
     }
-    for (ll i = 0; i < m; i++)
-    {
-        cin >> array2[i];
-    }
-    vector<int> array = findUnion(array1, array2, n, m);
-    int x=array.size();
-    for (int i = 0; i <x ; i++)
-    {
-        cout << array[i] << " ";
-    }
+    cout<<missingNumber(array,n)<<endl;
+    cout<<missingNumber(array,n)<<endl;
+    
 }

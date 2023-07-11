@@ -9,8 +9,6 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
-#define Y cout << "YES\n"
-#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -83,126 +81,121 @@ int binary_search(vector<int> vec, int querry)
     }
     return -1;
 }
-vector<pair<int, int>> prime_factorisation(ll n)
+
+int Length_Of_Subarray_BruteForce(vector<int> &arr, int K)
 {
-    vector<pair<int, int>> primes;
-    for (int i = 2; i * i <= n; i++)
+    int n = arr.size();
+    int s = 0, ans = 0;
+    for (int i = 0; i < n; i++)
     {
-        if (n % i == 0)
+        for (int j = i; j < n; j++)
         {
-            int cnt = 0;
-            while (n % i == 0)
+            for (int k = i; k <= j; k++)
             {
-                cnt++;
-                n /= i;
+                s += arr[k];
             }
-            primes.push_back({i, cnt});
+            if (s == K)
+            {
+                ans = max((j - i + 1), ans);
+            }
         }
     }
-    if (n > 1)
-        primes.push_back({n, 1});
-    return primes;
+    return ans;
 }
-ll nCr(ll n, ll r)
+int Length_Of_Subarray_Better(vector<int> &arr, int K)
 {
-    ll o;
-    if (n < r)
+    int n = arr.size();
+    vector<int> prefixSum(n + 1);
+    // vector<int> suffixSum(n+1);
+    int s = 0, ans = 0;
+    for (int i = 1; i <= n; i++)
     {
-        swap(n, r);
-        nCr(n, r);
+        prefixSum[i] += prefixSum[i - 1] + arr[i - 1];
     }
-    if (r == 1)
+    // for (int i = n; i > 0; i--)
+    // {
+    //     suffixSum[i]+=suffixSum[i-1]+arr[i-1];
+    // }
+
+    // for (int i = 0; i <= n; i++)
+    // {
+    //     cout<<prefixSum[i]<<" ";
+    // }
+    // cout<<endl;
+    for (int i = 0; i <= n; i++)
     {
-        cout << n << endl;
-
-        return n;
+        for (int j = i; j <= n; j++)
+        {
+            s = prefixSum[j] - prefixSum[i];
+            if (s == K)
+            {
+                ans = max((j - i), ans);
+            }
+        }
     }
-
-    return o = (n * nCr(n - 1, r - 1)) / r;
+    return ans;
 }
-
-vector<int> findUnion(vector<int> &arr1, vector<int> &arr2, int n, int m)
+int Length_Of_Subarray_Optimal_PositivesAndNegatives(vector<int> &arr, int K)
 {
-    vector<int> a;
-    int i = 0, j = 0, k = -1;
-    while (i < n && j < m)
+    int n = arr.size();
+    long long s = 0;
+    int ans = 0;
+    map<long long, int> PrefixSum;
+
+    for (int i = 0; i < n; i++)
     {
-        if (arr1[i] < arr2[j])
+        s += arr[i];
+        if (s == K)
         {
-            a.push_back(arr1[i]);
-            i++;
-            k++;
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
+            ans = max(ans, i + 1);
         }
-        else if (arr1[i] > arr2[j])
+        long long rem = s - K;
+        if (PrefixSum.find(rem) != PrefixSum.end())
         {
-            a.push_back(arr2[j]);
-            j++;
-            k++;
-            while (arr2[j] == a[k])
-            {
-                j++;
-            }
+            int len = i - PrefixSum[rem];
+            ans = max(len, ans);
         }
-        else if (arr1[i] == arr2[j])
+        else if (PrefixSum.find(s) == PrefixSum.end())
         {
-            a.push_back(arr1[i]);
-            i++;
-            j++;
-            k++;
-            while (arr2[j] == a[k])
-            {
-                j++;
-            }
-            while (arr1[i] == a[k])
-            {
-                i++;
-            }
+            PrefixSum[s] = i;
         }
     }
-    while (i < n)
+
+    return ans;
+}
+int Length_Of_Subarray_Optimal_NO_PositivesAndNegatives(vector<int> &arr, int K)
+{
+    int n = arr.size();
+    long long s = 0;
+    int ans = 0;
+    int l = 0, r = 0;
+    s = arr[r];
+    while (l < n && r < n)
     {
-        a.push_back(arr1[i]);
-        i++;
-        k++;
-        while (arr1[i] == a[k])
+        if (s == K)
         {
-            i++;
+            ans = max(ans, r - l + 1);
+        }
+        if (s > K)
+        {
+            s -= arr[l];
+            l++;
+        }
+        else if (s <= K)
+        {
+            s += arr[++r];
         }
     }
-    while (j < m)
-    {
-        a.push_back(arr2[j]);
-        j++;
-        k++;
-        while (arr2[j] == a[k])
-        {
-            j++;
-        }
-    }
-    return a;
+    return ans;
 }
 int main()
 {
-    int n, d, m;
-    cin >> n >> m;
-    vector<int> array1(n);
-    vector<int> array2(m);
+    int n, k;
+    cin >> n >> k;
+    vector<int> array(n);
     for (ll i = 0; i < n; i++)
     {
-        cin >> array1[i];
+        cin >> array[i];
     }
-    for (ll i = 0; i < m; i++)
-    {
-        cin >> array2[i];
-    }
-    vector<int> array = findUnion(array1, array2, n, m);
-    int x=array.size();
-    for (int i = 0; i <x ; i++)
-    {
-        cout << array[i] << " ";
-    }
+    cout << Length_Of_Subarray_Better(array, k) << endl;
 }
