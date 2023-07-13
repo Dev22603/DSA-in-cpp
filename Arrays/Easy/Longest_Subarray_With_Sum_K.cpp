@@ -105,17 +105,13 @@ int Length_Of_Subarray_BruteForce(vector<int> &arr, int K)
 int Length_Of_Subarray_Better(vector<int> &arr, int K)
 {
     int n = arr.size();
-    vector<int> prefixSum(n + 1);
     // vector<int> suffixSum(n+1);
     int s = 0, ans = 0;
+    vector<int> prefixSum(n + 1);
     for (int i = 1; i <= n; i++)
     {
         prefixSum[i] += prefixSum[i - 1] + arr[i - 1];
     }
-    // for (int i = n; i > 0; i--)
-    // {
-    //     suffixSum[i]+=suffixSum[i-1]+arr[i-1];
-    // }
 
     // for (int i = 0; i <= n; i++)
     // {
