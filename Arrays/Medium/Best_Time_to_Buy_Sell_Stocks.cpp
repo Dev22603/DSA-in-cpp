@@ -30,78 +30,56 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-int Maximum_Subarray_BruteForce(vector<int> &nums)
+int maxProfit_BruteForce(vector<int> &prices)
 {
-    int n = nums.size();
-    int s = 0, ans = 0;
-    for (int i = 0; i < n; i++)
+    // Brute force O(N2)
+
+    int buy = 0, sell = 1, n = prices.size();
+    int pro = 0;
+    for (; buy < n - 1; buy++)
     {
-        for (int j = i; j < n; j++)
+        for (sell = buy + 1; sell < n; sell++)
         {
-            s = 0;
-            for (int k = i; k <= j; k++)
-            {
-                s += nums[i];
-            }
-            ans = max(s, ans);
+            pro = max(pro, prices[sell] - prices[buy]);
         }
     }
-    return ans;
+    return pro;
 }
-int Maximum_Subarray_Better(vector<int> &nums)
+int maxProfit_Better(vector<int> &prices)
 {
-    int n = nums.size();
-    int s = 0, ans = 0;
-    ans = *max_element(nums.begin(), nums.end());
-
+    // Optimized approach O(N) O(N)
+    // We create  an auxillary array to store the max value from end
+    vector<int> ma = prices;
+    int n = prices.size();
+    for (int i = n - 2; i >= 0; i--)
+    {
+        ma[i] = max(ma[i], ma[i + 1]);
+    }
+    int prof = 0;
+    // for (int i = 0; i < n; i++)
+    // {
+    //     cout << ma[i] << " ";
+    // }
     for (int i = 0; i < n; i++)
     {
-        s = 0;
-        for (int j = i; j < n; j++)
-        {
-            s += nums[j];
-            ans = max(ans, s);
-        }
+        prof = max(prof, ma[i] - prices[i]);
     }
-    return ans;
+    return prof;
 }
-int Maximum_Subarray_Optimal_Kadane_LC53(vector<int> &nums)
-{
-        int n = nums.size();
-    int s = 0, ans1 = *max_element(nums.begin(),nums.end()), ans=0;
 
+int maxProfit_Optimal(vector<int> &prices)
+{
+    // Most optimized approach with O(N) time complexity and O(1) space complexity
+    // we will find the minimum so far from the beginning of the array
+    int MinSoFar = prices[0];
+    int n = prices.size();
+    int Profit = 0;
     for (int i = 0; i < n; i++)
     {
-       s+=nums[i];
-       ans=max(s,ans);
-       if(s<0)
-       {
-           ans=max(s,ans);
-           s=0;
-       }
+        MinSoFar = min(MinSoFar, prices[i]);
+        Profit = max(prices[i] - MinSoFar, Profit);
     }
-    if(ans==0)
-    {
-        return ans1;
-    }
-    return ans;
-}
-int Maximum_Subarray_Optimal_Kadane_CN(vector<int> &nums)
-{
-        int n = nums.size();
-    int s = 0, ans=0;
-
-    for (int i = 0; i < n; i++)
-    {
-       s+=nums[i];
-       ans=max(s,ans);
-       if(s<0)
-       {
-           ans=max(s,ans);
-           s=0;
-       }
-    }
-    return ans;
+    return Profit;
 }
 int main()
 {
@@ -112,11 +90,9 @@ int main()
     {
         cin >> array[i];
     }
-    cout << "Before Sorting" << endl;
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";
     }
-    cout << "\nAfter Sorting" << endl;
-    cout << Maximum_Subarray_Optimal_Kadane_LC53(array);
+    maxProfit_Better(array);
 }
