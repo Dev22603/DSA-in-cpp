@@ -9,6 +9,8 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
+#define Y cout << "YES\n"
+#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -28,64 +30,51 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-void Merge(vector<int> arr, int low, int mid, int high)
+void Next_Permutation_BruteForce(vector<int> &arr)
 {
-    int left = low;
-    int right = mid + 1;
-    vector<int> temp;
-    while (left <= mid && right <= high)
-    {
-        if (arr[left] <= arr[right])
-        {
-            temp.push_back(arr[left++]);
-        }
-        else
-        {
-            temp.push_back(arr[right++]);
-        }
-    }
-    while (left <= mid)
-    {
-        temp.push_back(arr[left++]);
-    }
-    while (right<= high)
-    {
-        temp.push_back(arr[right++]);
-    }
-    for (int i = low; i <=high; i++)
-    {
-        arr[low]=temp[i-low];
-    }
-    
 }
-void MergeSort(vector<int> &arr, int low, int high)
+
+void Next_Permutation_Optimal_LC31(vector<int> &arr)
 {
-    if (low >= high)
+    int n = arr.size();
+    int x = -1;
+    for (int i = n - 1; i > 0; i--)
+    {
+        if (arr[i] > arr[i - 1])
+        {
+            x = i - 1;
+            break;
+        }
+    }
+    if (x == -1)
+    {
+        sort(arr.begin(), arr.end());
         return;
-    int mid = (low + high) / 2;
-    MergeSort(arr, low, mid);
-    MergeSort(arr, mid + 1, high);
-    Merge(arr, low, mid, high);
+    }
+    int y = 0;
+    for (int i = n - 1; i > 0; i--)
+    {
+        if (arr[i] > arr[x])
+        {
+            y = i;
+            break;
+        }
+    }
+    swap(arr[x], arr[y]);
+    sort(arr.begin() + x + 1, arr.end());
 }
 int main()
 {
     int n;
     cin >> n;
     vector<int> array(n);
-    for (int i = 0; i < n; i++)
+    for (ll i = 0; i < n; i++)
     {
         cin >> array[i];
     }
-    cout << "Before Sorting" << endl;
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";
     }
-    
-    cout << "\nAfter Sorting" << endl;
-    MergeSort(array,0,n);
-    for (int i = 0; i < n; i++)
-    {
-        cout << array[i] << " ";
-    }
+    Next_Permutation_Optimal_LC31(array);
 }

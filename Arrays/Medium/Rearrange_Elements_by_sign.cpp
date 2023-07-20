@@ -9,6 +9,8 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
+#define Y cout << "YES\n"
+#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -28,62 +30,66 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-void Merge(vector<int> arr, int low, int mid, int high)
+vector<int> Rearrange_BruteForce(vector<int> &arr)
 {
-    int left = low;
-    int right = mid + 1;
-    vector<int> temp;
-    while (left <= mid && right <= high)
+    int n = arr.size();
+    vector<int> pos;
+    vector<int> neg;
+    for (int i = 0; i < n; i++)
     {
-        if (arr[left] <= arr[right])
+        if (arr[i] >= 0)
         {
-            temp.push_back(arr[left++]);
+            pos.push_back(arr[i]);
         }
         else
         {
-            temp.push_back(arr[right++]);
+            neg.push_back(arr[i]);
         }
     }
-    while (left <= mid)
+    int j = 0, k = 0;
+    for (int i = 0; i < n; i++)
     {
-        temp.push_back(arr[left++]);
+        if (i & 1)
+        {
+            arr[i] = neg[j++];
+        }
+        else
+        {
+            arr[i] = pos[k++];
+        }
     }
-    while (right<= high)
-    {
-        temp.push_back(arr[right++]);
-    }
-    for (int i = low; i <=high; i++)
-    {
-        arr[low]=temp[i-low];
-    }
-    
+    return arr;
 }
-void MergeSort(vector<int> &arr, int low, int high)
+vector<int> Rearrange_Optimal(vector<int> &arr)
 {
-    if (low >= high)
-        return;
-    int mid = (low + high) / 2;
-    MergeSort(arr, low, mid);
-    MergeSort(arr, mid + 1, high);
-    Merge(arr, low, mid, high);
+    int n = arr.size();
+    vector<int> ans(n);
+    int posIndex = 0, negIndex = 1;
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] >= 0)
+        {
+            ans[posIndex] = arr[i];
+            posIndex += 2;
+        }
+        else
+        {
+            ans[negIndex] = arr[i];
+            negIndex += 2;
+        }
+    }
+    return ans;
 }
 int main()
 {
     int n;
     cin >> n;
     vector<int> array(n);
-    for (int i = 0; i < n; i++)
+    for (ll i = 0; i < n; i++)
     {
         cin >> array[i];
     }
-    cout << "Before Sorting" << endl;
-    for (int i = 0; i < n; i++)
-    {
-        cout << array[i] << " ";
-    }
-    
-    cout << "\nAfter Sorting" << endl;
-    MergeSort(array,0,n);
+    Rearrange_BruteForce(array);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";

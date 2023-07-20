@@ -1,3 +1,5 @@
+
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long int
@@ -9,6 +11,8 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
+#define Y cout << "YES\n"
+#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -28,64 +32,48 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-void Merge(vector<int> arr, int low, int mid, int high)
+int longestConsecutive(vector<int> &nums)
 {
-    int left = low;
-    int right = mid + 1;
-    vector<int> temp;
-    while (left <= mid && right <= high)
+    int ans = 1, n = nums.size(), ma = 1;
+    if (n == 0 || n == 1)
+        return n;
+    sort(nums.begin(), nums.end());
+    for (int i = 1; i < n; i++)
     {
-        if (arr[left] <= arr[right])
+        if (nums[i] - nums[i - 1] <= 1)
         {
-            temp.push_back(arr[left++]);
+            if (nums[i] - nums[i - 1] == 0)
+                continue;
+            else
+            {
+                ans++;
+                ma = max(ans, ma);
+            }
         }
         else
         {
-            temp.push_back(arr[right++]);
+            // cout << ma << endl;
+            ma = max(ans, ma);
+            ans = 1;
         }
     }
-    while (left <= mid)
-    {
-        temp.push_back(arr[left++]);
-    }
-    while (right<= high)
-    {
-        temp.push_back(arr[right++]);
-    }
-    for (int i = low; i <=high; i++)
-    {
-        arr[low]=temp[i-low];
-    }
-    
+    // for (int i : nums)
+    //     cout << i << " ";
+    return ma;
 }
-void MergeSort(vector<int> &arr, int low, int high)
-{
-    if (low >= high)
-        return;
-    int mid = (low + high) / 2;
-    MergeSort(arr, low, mid);
-    MergeSort(arr, mid + 1, high);
-    Merge(arr, low, mid, high);
-}
+
 int main()
 {
     int n;
     cin >> n;
-    vector<int> array(n);
-    for (int i = 0; i < n; i++)
+    vector<int> array(n);\
+    for (ll i = 0; i < n; i++)
     {
         cin >> array[i];
     }
-    cout << "Before Sorting" << endl;
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";
     }
-    
-    cout << "\nAfter Sorting" << endl;
-    MergeSort(array,0,n);
-    for (int i = 0; i < n; i++)
-    {
-        cout << array[i] << " ";
-    }
+    longestConsecutive(array);
 }

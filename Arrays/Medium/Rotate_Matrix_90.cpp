@@ -30,53 +30,67 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-ll SecondLargest(vector<ll> &arr)
+void Rotate_BruteForce(vector<vector<int>> &matrix)
 {
-    ll n = arr.size();
-    ll largest = arr[0];
-    ll secondLargest = INT_MIN;
-    for (ll i = 1; i < n; i++)
+    int r = matrix.size();
+    int c = matrix[0].size();
+    vector<vector<int>> ans(r, vector<int>(c, 0));
+    for (int i = 0; i < r; i++)
     {
-        /* code */
-        if (arr[i] > largest)
+        for (int j = 0; j < c; j++)
         {
-            secondLargest = largest;
-            largest = arr[i];
-        }
-        else if (arr[i] < largest && arr[i] > secondLargest)
-        {
-            secondLargest = arr[i];
+            ans[c-j][r-i]=matrix[i][j];
         }
     }
-    return secondLargest;
+    matrix=ans;
 }
-ll SecondSmallest(vector<ll> &arr)
+void Rotate_Optimal(vector<vector<int>> &matrix)
 {
-    ll n = arr.size();
-    ll smallest = arr[0];
-    ll secondSmallest = INT_MAX;
-    for (ll i = 1; i < n; i++)
+    int r = matrix.size();
+    int c = matrix[0].size();
+    for (int i = 1; i < r; i++)
     {
-        /* code */
-        if (arr[i] < smallest)
+        for (int j = 0; j < i; j++)
         {
-            secondSmallest = smallest;
-            smallest = arr[i];
-        }
-        else if (arr[i] > smallest && arr[i] < secondSmallest)
-        {
-            secondSmallest = arr[i];
+            swap(matrix[i][j],matrix[j][i]);
         }
     }
-    return secondSmallest;
+    for(auto &it : matrix)
+    {
+        reverse(it.begin(),it.end());
+    }
+
 }
+
 int main()
 {
-    ll n;
-    cin >> n;
-    vll array(n);
+    int n, m;
+    cin >> n >> m;
+    vector<vector<int>> matrix(n, vector<int>(m, 0));
     for (ll i = 0; i < n; i++)
     {
-        cin >> array[i];
+        for (ll j = 0; j < m; j++)
+        {
+            cin >> matrix[i][j];
+        }
     }
+    for (ll i = 0; i < n; i++)
+    {
+        for (ll j = 0; j < m; j++)
+        {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+    Rotate_BruteForce(matrix);
+    for (ll i = 0; i < n; i++)
+    {
+        for (ll j = 0; j < m; j++)
+        {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
 }
