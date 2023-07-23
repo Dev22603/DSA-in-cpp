@@ -30,48 +30,52 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-int findDuplicate_Hashing(vector<int> &nums)
+// Definition for singly-linked list.
+class ListNode
 {
-    unordered_map<int, int> m;
-    for (int i : nums)
+
+public:
+    int data;
+    ListNode *next;
+
+    // constructor
+    ListNode(int data)
     {
-        m[i]++;
+        this->data = data;
+        this->next = NULL;
     }
-    for (auto i : m)
+};
+
+ListNode *middle_Brute(ListNode *&Head)
+{
+    int n = 0;
+    ListNode *temp = Head;
+    while (temp)
     {
-        if (i.second == 2)
-            return i.first;
+        n++;
+        temp = temp->next;
     }
+    n = n / 2;
+    temp=Head;
+    for (int i = 0; i < n; i++)
+    {
+        temp = temp->next;
+    }
+    return temp;
 }
-int findDuplicate_Optimal_Hare_and_Tortoise(vector<int> &nums)
+ListNode *middle_Optimal_Hare_Tortoise(ListNode *&Head)
 {
-    int n = nums.size();
-    int slow = nums[0];
-    int fast = nums[0];
-    do{
-        slow=nums[slow];
-        fast=nums[nums[fast]];
-    }
-    while(slow!=fast);
-    fast=nums[0];
-    while(slow!=fast){
-        slow=nums[slow];
-        fast=nums[fast];
+ ListNode *slow=Head;
+    ListNode *fast=Head;
+    while (fast && fast->next)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
     }
     return slow;
+    
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<vector<int>> array(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> array[i][0] >> array[i][1];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        cout << array[i][0] << array[i][1] << " ";
-    }
 }

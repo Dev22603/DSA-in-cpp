@@ -28,7 +28,7 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-void Merge(vector<int> arr, int low, int mid, int high)
+void Merge(vector<int> &arr, int low, int mid, int high)
 {
     int left = low;
     int right = mid + 1;
@@ -48,15 +48,14 @@ void Merge(vector<int> arr, int low, int mid, int high)
     {
         temp.push_back(arr[left++]);
     }
-    while (right<= high)
+    while (right <= high)
     {
         temp.push_back(arr[right++]);
     }
-    for (int i = low; i <=high; i++)
+    for (int i = low; i <= high; i++)
     {
-        arr[low]=temp[i-low];
+        arr[i] = temp[i - low];
     }
-    
 }
 void MergeSort(vector<int> &arr, int low, int high)
 {
@@ -81,9 +80,9 @@ int main()
     {
         cout << array[i] << " ";
     }
-    
+
     cout << "\nAfter Sorting" << endl;
-    MergeSort(array,0,n);
+    MergeSort(array, 0, n - 1);
     for (int i = 0; i < n; i++)
     {
         cout << array[i] << " ";

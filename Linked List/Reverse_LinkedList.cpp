@@ -30,48 +30,49 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-int findDuplicate_Hashing(vector<int> &nums)
+// Definition for singly-linked list.
+class ListNode
 {
-    unordered_map<int, int> m;
-    for (int i : nums)
-    {
-        m[i]++;
-    }
-    for (auto i : m)
-    {
-        if (i.second == 2)
-            return i.first;
-    }
-}
-int findDuplicate_Optimal_Hare_and_Tortoise(vector<int> &nums)
-{
-    int n = nums.size();
-    int slow = nums[0];
-    int fast = nums[0];
-    do{
-        slow=nums[slow];
-        fast=nums[nums[fast]];
-    }
-    while(slow!=fast);
-    fast=nums[0];
-    while(slow!=fast){
-        slow=nums[slow];
-        fast=nums[fast];
-    }
-    return slow;
-}
 
+public:
+    int data;
+    ListNode *next;
+
+    // constructor
+    ListNode(int data)
+    {
+        this->data = data;
+        this->next = NULL;
+    }
+};
+
+ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+{
+    if (!Head || !Head->next)
+        return Head;       // If the linkedlist has one element or 0 elements
+    ListNode *prev = NULL; // Initialize previous as null
+    ListNode *curr = Head;
+    ListNode *nxt;
+    while (curr)
+    {
+        nxt = curr->next;
+        curr->next = prev;
+        prev = curr;
+        curr = nxt;
+    }
+    return prev;
+}
+ListNode *reverseLinkedList_Recursive(ListNode *&Head)
+{
+    if (!Head || !Head->next)
+        return Head; // If the linkedlist has one element or 0 elements
+    ListNode *newHead = Head;
+
+    newHead = reverseLinkedList_Recursive(Head->next);
+    Head->next->next = Head;
+    Head->next = NULL;
+    return newHead;
+}
 int main()
 {
-    int n;
-    cin >> n;
-    vector<vector<int>> array(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> array[i][0] >> array[i][1];
-    }
-    for (int i = 0; i < n; i++)
-    {
-        cout << array[i][0] << array[i][1] << " ";
-    }
 }
