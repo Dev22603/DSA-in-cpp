@@ -35,45 +35,65 @@ class ListNode
 {
 
 public:
-    int data;
+    int val;
     ListNode *next;
 
     // constructor
-    ListNode(int data)
+    ListNode()
     {
-        this->data = data;
         this->next = NULL;
     }
 };
-
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+// Constructor modified for this question and val 
+ListNode *addTwoNumbers_Optimal(ListNode *l1, ListNode *l2)
 {
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
+    ListNode *start = new ListNode();
+    ListNode *NewHead=start;
+    start->val= 0;
+    int sum = 0, carry = 0;
+    while (l1 && l2)
     {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
+        sum=(l1->val+l2->val+carry)%10;
+        carry=(l1->val+l2->val+carry)/10;
+        ListNode *temp=new ListNode();
+        temp->val=sum;
+        start->next=temp;
+        start=start->next;
+        l1=l1->next;
+        l2=l2->next;
     }
-    return prev;
-    // BETTER THAN RECURSIVE
-}
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
+    while(l1)
+    {
+        sum=(l1->val+carry)%10;
+        carry=(l1->val+carry)/10;
+        ListNode *temp=new ListNode();
+        temp->val=sum;
+        start->next=temp;
+        start=start->next;
+        l1=l1->next;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
+    }
+    while(l2)
+    {
+        sum=(l2->val+carry)%10;
+        carry=(l2->val+carry)/10;
+        ListNode *temp=new ListNode();
+        temp->val=sum;
+        start->next=temp;
+        start=start->next;
+        l2=l2->next;
+    }
+    if(carry)
+    {
+        ListNode *temp=new ListNode();
+        temp->val=carry;
+        start->next=temp;
+        start=start->next;
+
+    }
+    return NewHead->next;
 }
+
 int main()
 {
 }

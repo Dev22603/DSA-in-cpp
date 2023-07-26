@@ -30,50 +30,49 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-// Definition for singly-linked list.
-class ListNode
+const int num1 = 1e5 + 10;
+void dfs(int vertex, vector<int> graph[], bool vis[],vector<int>&ans)
 {
-
-public:
-    int data;
-    ListNode *next;
-
-    // constructor
-    ListNode(int data)
+    vis[vertex] = 1;
+    ans.push_back(vertex);
+    for (int i = 0; i < graph[vertex].size(); i++)
     {
-        this->data = data;
-        this->next = NULL;
+        int child = graph[vertex][i];
+        if (vis[child] == 0)
+            dfs(child, graph, vis,ans);
     }
-};
+    // OR this for loop
 
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
-    {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
-    }
-    return prev;
-    // BETTER THAN RECURSIVE
+    // for (int child : graph[vertex])
+    // {
+    //     if (vis[child] == 0)
+    //         dfs(child);
+    // }
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
+vector<int> dfsOfGraph(int V, vector<int> adj[])
 {
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
-
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
+    bool vis[V]={0};
+    vector<int> ans1;    
+    dfs(0,adj,vis,ans1);
+    return ans1;
 }
 int main()
 {
+
+    int V, tem, E;
+    cin >> V >> E;
+    vector<int> adj[V];
+    for (int i = 0; i < E; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    vector<int> ans = dfsOfGraph(V, adj);
+    for (int i = 0; i < ans.size(); i++)
+    {
+        cout << ans[i] << " ";
+    }
+    cout << endl;
 }

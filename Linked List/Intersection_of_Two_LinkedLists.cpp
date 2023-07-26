@@ -46,34 +46,25 @@ public:
     }
 };
 
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+ListNode *getIntersectionNode(ListNode *headA, ListNode *headB)
 {
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
-    {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
-    }
-    return prev;
-    // BETTER THAN RECURSIVE
-}
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
+    if (headA == NULL || headB == NULL)
+    {
+        return NULL;
+    }
+
+    ListNode *a = headA;
+    ListNode *b = headB;
+
+    while(a!=b)
+    {
+        a= a==NULL?headB:a->next;
+        b= b==NULL?headA:b->next;
+    }
+    return a;
 }
+
 int main()
 {
 }

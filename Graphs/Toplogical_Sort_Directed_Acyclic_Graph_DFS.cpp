@@ -30,50 +30,52 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-// Definition for singly-linked list.
-class ListNode
+void Topological_Sort_DFS(int vertex, vector<int> graph[], bool vis[], stack<int> &st)
 {
-
-public:
-    int data;
-    ListNode *next;
-
-    // constructor
-    ListNode(int data)
+    vis[vertex] = 1;
+    for (auto it : graph[vertex])
     {
-        this->data = data;
-        this->next = NULL;
+        if (!vis[it])
+        {
+            Topological_Sort_DFS(it, graph, vis, st);
+        }
     }
-};
-
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
-    {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
-    }
-    return prev;
-    // BETTER THAN RECURSIVE
+    st.push(vertex);
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
-}
+
+
+// interview bit
+// love babbar
+
+
+
 int main()
 {
+    int V, E;
+    cin >> V >> E;
+    vector<int> adj[V];
+    bool vis[V] = {0};
+    stack<int> s;
+    for (int i = 0; i < E; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+    for (int i = 0; i < V; i++)
+    {
+        if (!vis[i])
+        {
+            Topological_Sort_DFS(i, adj, vis, s);
+        }
+    }
+    vector<int> Topological_Sorted_Order;
+    while (!s.empty())
+    {
+        Topological_Sorted_Order.push_back(s.top());
+        s.pop();
+    }
+    for (int i : Topological_Sorted_Order)
+        cout << i << " ";
 }

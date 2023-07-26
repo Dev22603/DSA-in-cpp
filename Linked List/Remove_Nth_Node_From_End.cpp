@@ -39,41 +39,56 @@ public:
     ListNode *next;
 
     // constructor
-    ListNode(int data)
+    ListNode()
     {
-        this->data = data;
         this->next = NULL;
     }
 };
-
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+// Constructor modified for this question
+ListNode *Remove_Brute(ListNode *&Head, int n)
 {
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
+    int len=0;
+    ListNode *temp = Head;
+    while (temp)
     {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
+        len++;
+        temp = temp->next;
     }
-    return prev;
-    // BETTER THAN RECURSIVE
+    if(n==len)
+    {
+        return Head->next;
+    }
+    temp = Head;
+    n=len-n;
+    for (int i =1; i < n; i++)
+    {
+        temp = temp->next;
+    }
+    temp->next = temp->next->next;
+    return Head;
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
+ListNode *Remove_Optimal_Hare_Tortoise(ListNode *&Head,int n)
 {
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
-
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
+    ListNode *start= new ListNode();
+    start->next=Head;
+    ListNode *slow = start;
+    ListNode *fast = start;
+    for (int i = 1; i <= n; i++)
+    {
+        fast=fast->next;
+    }
+    while (fast->next)
+    {
+        slow=slow->next;
+        fast=fast->next;
+    }
+    slow->next=slow->next->next;
+    return start->next;
+    
+    
+    return slow;
 }
+
 int main()
 {
 }

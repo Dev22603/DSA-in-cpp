@@ -45,6 +45,17 @@ public:
         this->next = NULL;
     }
 };
+ListNode *reverseLinkedList_Recursive(ListNode *&Head)
+{
+    if (!Head || !Head->next)
+        return Head; // If the linkedlist has one element or 0 elements
+    ListNode *newHead = Head;
+
+    newHead = reverseLinkedList_Recursive(Head->next);
+    Head->next->next = Head;
+    Head->next = NULL;
+    return newHead;
+}
 
 ListNode *reverseLinkedList_Iterative(ListNode *&Head)
 {
@@ -61,19 +72,36 @@ ListNode *reverseLinkedList_Iterative(ListNode *&Head)
         curr = nxt;
     }
     return prev;
-    // BETTER THAN RECURSIVE
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
+ListNode *middle_Optimal_Hare_Tortoise(ListNode *&Head)
+{
+    ListNode *slow = Head;
+    ListNode *fast = Head;
+    while (fast->next && fast->next->next)
+    {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return slow;
 }
+bool isPalindrome(ListNode *Head)
+{
+    ListNode *middle=middle_Optimal_Hare_Tortoise(Head);
+    ListNode *reverse=reverseLinkedList_Iterative(middle->next);
+    ListNode *start=Head;
+    while (reverse)
+    {
+        if(reverse->data!=start->data)
+        {
+            return 0;
+        }
+        reverse=reverse->next;
+        start=start->next;
+    }
+    return 1;
+}
+
 int main()
 {
 }

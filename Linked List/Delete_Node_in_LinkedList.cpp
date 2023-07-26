@@ -39,41 +39,18 @@ public:
     ListNode *next;
 
     // constructor
-    ListNode(int data)
+      ListNode(int data)
     {
         this->data = data;
         this->next = NULL;
     }
 };
-
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+ListNode *Delete(ListNode *node)
 {
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
-    {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
-    }
-    return prev;
-    // BETTER THAN RECURSIVE
+    node->data=node->next->data;
+    node->next=node->next->next;
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
-}
 int main()
 {
 }

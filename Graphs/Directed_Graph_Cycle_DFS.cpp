@@ -30,50 +30,57 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-// Definition for singly-linked list.
-class ListNode
+bool checkCYCLE_Directed_Graph_DFS(int vertex, vector<int> graph[], bool vis[], bool dfsVis[])
 {
-
-public:
-    int data;
-    ListNode *next;
-
-    // constructor
-    ListNode(int data)
+    vis[vertex] = 1;
+    dfsVis[vertex] = 1;
+    for (auto it : graph[vertex])
     {
-        this->data = data;
-        this->next = NULL;
+        if (!vis[it])
+        {
+            if (checkCYCLE_Directed_Graph_DFS(it, graph, vis, dfsVis))
+                return 1;
+        }
+        else if (dfsVis[it])
+        {
+            return 1;
+        }
     }
-};
-
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
-    {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
-    }
-    return prev;
-    // BETTER THAN RECURSIVE
+    dfsVis[vertex] = 0;
+    return 0;
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
-}
 int main()
 {
+    int V, E;
+    cin >> V >> E;
+    vector<int> adj[V + 1];   // the vertices start from 1 acc to CN
+    bool vis[V + 1] = {0};    // the vertices start from 1 acc to CN
+    bool dfsVis[V + 1] = {0}; // the vertices start from 1 acc to CN
+    for (int i = 0; i < E; i++)
+    {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+    bool isThereCycle = false;
+    for (int i = 1; i <= V; i++)
+    {
+        if (vis[i])
+            continue;
+        if (checkCYCLE_Directed_Graph_DFS(i, adj, vis, dfsVis))
+        {
+            isThereCycle = true;
+            break;
+        }
+    }
+
+    if (isThereCycle)
+    {
+        cout << "Yes\n";
+    }
+    else
+    {
+        cout << "No\n";
+    }
 }

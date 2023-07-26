@@ -46,34 +46,24 @@ public:
     }
 };
 
-ListNode *reverseLinkedList_Iterative(ListNode *&Head)
+bool hasCycle(ListNode *Head)
 {
-    if (!Head || !Head->next)
-        return Head;       // If the linkedlist has one element or 0 elements
-    ListNode *prev = NULL; // Initialize previous as null
-    ListNode *curr = Head;
-    ListNode *nxt;
-    while (curr)
+    if (!Head ||!Head->next) return false;  // no cycle in empty or single node linked lists
+    ListNode *slow=Head;
+    ListNode *fast=Head;
+    while (fast && fast->next)
     {
-        nxt = curr->next;
-        curr->next = prev;
-        prev = curr;
-        curr = nxt;
+        slow=slow->next;
+        fast=fast->next->next;
+        if (slow==fast)
+        {
+            return 1;
+        }
     }
-    return prev;
-    // BETTER THAN RECURSIVE
+    return 0;
+    
 }
-ListNode *reverseLinkedList_Recursive(ListNode *&Head)
-{
-    if (!Head || !Head->next)
-        return Head; // If the linkedlist has one element or 0 elements
-    ListNode *newHead = Head;
 
-    newHead = reverseLinkedList_Recursive(Head->next);
-    Head->next->next = Head;
-    Head->next = NULL;
-    return newHead;
-}
 int main()
 {
 }
