@@ -30,7 +30,6 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-const int num1 = 1e5 + 10;
 void dfs(int vertex, vector<int> graph[], bool vis[], vector<int> &ans)
 {
     vis[vertex] = 1;

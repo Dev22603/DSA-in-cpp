@@ -70,6 +70,7 @@ int Majority_Element_Better(vector<int> &nums)
 }
 int Majority_Element_Optimal_Moore_Voting_Algorithm(vector<int> &nums)
 {
+    // IMP
     int n = nums.size();
     int cnt = 0, el = 0;
     for (int i = 0; i < n; i++)

@@ -31,56 +31,6 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);                    \
     cout.tie(NULL)
-ll factorial(ll n)
-{
-    if (n == 0 || n == 1)
-        return 1;
-    else
-        return ((n * factorial(n - 1)));
-}
-ll fastprime(ll a)
-{
-    if (a != 2 && a % 2 == 0 || a < 2)
-        return 0;
-    for (ll i = 3; i * i <= a; i += 2)
-        if (a % i == 0)
-            return 0;
-    return 1;
-}
-int binary_search(vector<int> vec, int querry)
-{
-    int low, mid, high;
-    low = 0, high = vec.size() - 1;
-    cout << high << "high" << endl;
-    while (low <= high)
-    {
-        mid = low + (high - low) / 2;
-
-        if (vec[mid] == querry)
-        {
-            return mid;
-        }
-        else if (vec[low] == querry)
-        {
-            return low;
-        }
-        else if (vec[high] == querry)
-        {
-            return high;
-        }
-        else if (vec[mid] < querry)
-        {
-            low = mid + 1;
-            high--;
-        }
-        else if (querry < vec[mid])
-        {
-            high = mid - 1;
-            low++;
-        }
-    }
-    return -1;
-}
 
 int Length_Of_Subarray_BruteForce(vector<int> &arr, int K)
 {
@@ -90,6 +40,7 @@ int Length_Of_Subarray_BruteForce(vector<int> &arr, int K)
     {
         for (int j = i; j < n; j++)
         {
+            s=0;
             for (int k = i; k <= j; k++)
             {
                 s += arr[k];
@@ -105,19 +56,12 @@ int Length_Of_Subarray_BruteForce(vector<int> &arr, int K)
 int Length_Of_Subarray_Better(vector<int> &arr, int K)
 {
     int n = arr.size();
-    // vector<int> suffixSum(n+1);
     int s = 0, ans = 0;
     vector<int> prefixSum(n + 1);
     for (int i = 1; i <= n; i++)
     {
         prefixSum[i] += prefixSum[i - 1] + arr[i - 1];
     }
-
-    // for (int i = 0; i <= n; i++)
-    // {
-    //     cout<<prefixSum[i]<<" ";
-    // }
-    // cout<<endl;
     for (int i = 0; i <= n; i++)
     {
         for (int j = i; j <= n; j++)
@@ -159,6 +103,7 @@ int Length_Of_Subarray_Optimal_PositivesAndNegatives(vector<int> &arr, int K)
 
     return ans;
 }
+// IMP
 int Length_Of_Subarray_Optimal_NO_PositivesAndNegatives(vector<int> &arr, int K)
 {
     int n = arr.size();

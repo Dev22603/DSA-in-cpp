@@ -34,11 +34,11 @@ int maxProfit_BruteForce(vector<int> &prices)
 {
     // Brute force O(N2)
 
-    int buy = 0, sell = 1, n = prices.size();
+    int n = prices.size();
     int pro = 0;
-    for (; buy < n - 1; buy++)
+    for (int buy = 0; buy < n - 1; buy++)
     {
-        for (sell = buy + 1; sell < n; sell++)
+        for (int sell = buy + 1; sell < n; sell++)
         {
             pro = max(pro, prices[sell] - prices[buy]);
         }
@@ -49,17 +49,14 @@ int maxProfit_Better(vector<int> &prices)
 {
     // Optimized approach O(N) O(N)
     // We create  an auxillary array to store the max value from end
-    vector<int> ma = prices;
     int n = prices.size();
+    vector<int> ma(n);
+    ma[n - 1] = prices[n - 1];
     for (int i = n - 2; i >= 0; i--)
     {
-        ma[i] = max(ma[i], ma[i + 1]);
+        ma[i] = max(prices[i], ma[i + 1]);
     }
     int prof = 0;
-    // for (int i = 0; i < n; i++)
-    // {
-    //     cout << ma[i] << " ";
-    // }
     for (int i = 0; i < n; i++)
     {
         prof = max(prof, ma[i] - prices[i]);

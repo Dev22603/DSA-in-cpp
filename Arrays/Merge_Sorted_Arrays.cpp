@@ -30,35 +30,7 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-vector<vector<int>> Merge_Overlapping_Intervals_BruteForce(vector<vector<int>> &arr)
-{
-    int n = arr.size();
-    sort(arr.begin(), arr.end());
-    vector<vector<int>> ans;
-    for (int i = 0; i < n; i++)
-    {
-        int start = arr[i][0];
-        int end = arr[i][1];
-        // if (!ans.empty() && end<=ans.back()[1])
-        // {
-        //     continue;
-        // }   striver wrote this if statement but I am writing the i=j statement on line 56
-        for (int j = i + 1; j < n; j++)
-        {
-            if (arr[j][0] <= end)
-            {
-                end = max(end, arr[j][1]);
-            }
-            else
-            {
-                break;
-            }
-            i = j; // you can use line instead of the if statement
-        }
-        ans.push_back({start, end});
-    }
-    return ans;
-}
+
 void Merge_Sorted_Arrays_Optimal_1(vector<int> &nums1, int n, vector<int> &nums2, int m)
 {
     int left = n - 1;

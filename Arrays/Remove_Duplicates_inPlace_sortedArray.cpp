@@ -33,93 +33,6 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);                    \
     cout.tie(NULL)
-ll factorial(ll n)
-{
-    if (n == 0 || n == 1)
-        return 1;
-    else
-        return ((n * factorial(n - 1)));
-}
-ll fastprime(ll a)
-{
-    if (a != 2 && a % 2 == 0 || a < 2)
-        return 0;
-    for (ll i = 3; i * i <= a; i += 2)
-        if (a % i == 0)
-            return 0;
-    return 1;
-}
-int binary_search(vector<int> vec, int querry)
-{
-    int low, mid, high;
-    low = 0, high = vec.size() - 1;
-    cout << high << "high" << endl;
-    while (low <= high)
-    {
-        mid = low + (high - low) / 2;
-
-        if (vec[mid] == querry)
-        {
-            return mid;
-        }
-        else if (vec[low] == querry)
-        {
-            return low;
-        }
-        else if (vec[high] == querry)
-        {
-            return high;
-        }
-        else if (vec[mid] < querry)
-        {
-            low = mid + 1;
-            high--;
-        }
-        else if (querry < vec[mid])
-        {
-            high = mid - 1;
-            low++;
-        }
-    }
-    return -1;
-}
-vector<pair<int, int>> prime_factorisation(ll n)
-{
-    vector<pair<int, int>> primes;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            int cnt = 0;
-            while (n % i == 0)
-            {
-                cnt++;
-                n /= i;
-            }
-            primes.push_back({i, cnt});
-        }
-    }
-    if (n > 1)
-        primes.push_back({n, 1});
-    return primes;
-}
-ll nCr(ll n, ll r)
-{
-    ll o;
-    if (n < r)
-    {
-        swap(n, r);
-        nCr(n, r);
-    }
-    if (r == 1)
-    {
-        cout << n << endl;
-
-        return n;
-    }
-
-    return o = (n * nCr(n - 1, r - 1)) / r;
-}
 
 int unique_bruteforce(vector<ll> &arr)
 {
@@ -135,7 +48,7 @@ int unique_bruteforce(vector<ll> &arr)
     {
         arr[index++] = x;
     }
-    return s.size();
+    unique_elements = s.size();
 
     return unique_elements;
 }
@@ -148,11 +61,11 @@ int unique(vector<ll> &arr)
     {
         if (arr[j] != arr[i])
         {
-            arr[i+1]=arr[j];
+            arr[i + 1] = arr[j];
             i++;
         }
     }
-    return i+1;
+    return i + 1;
 }
 
 int main()

@@ -41,7 +41,6 @@ int findMaxConsecutiveOnes(vector<int> &arr, int k)
         }
         while (count > k)
         {
-            // cout << i << " " << j << " " << gM << endl;
             if (arr[i] == 0)
             {
                 count--;

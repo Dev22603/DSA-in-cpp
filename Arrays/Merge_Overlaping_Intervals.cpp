@@ -54,7 +54,40 @@ vector<vector<int>> Merge_Overlapping_Intervals_BruteForce(vector<vector<int>> &
                 break;
             }
             i = j; // you can use line instead of the if statement
+            i++;   // you can use line instead of i=j
         }
+        ans.push_back({start, end});
+    }
+    return ans;
+}
+
+vector<vector<int>> Merge_Overlapping_Intervals_BruteForce_Better(vector<vector<int>> &arr)
+{
+    int n = arr.size();
+    sort(arr.begin(), arr.end());
+    vector<vector<int>> ans;
+    for (int i = 0; i < n; i++)
+    {
+        int start = arr[i][0];
+        int end = arr[i][1];
+        // if (!ans.empty() && end<=ans.back()[1])
+        // {
+        //     continue;
+        // }   striver wrote this if statement but I am writing the i=j statement on line 56
+        int j;
+        for (j = i + 1; j < n; j++)
+        {
+            if (arr[j][0] <= end)
+            {
+                end = max(end, arr[j][1]);
+            }
+            else
+            {
+                break;
+            }
+            // i++; // you can use line instead of the if statement
+        }
+        i = j - 1;
         ans.push_back({start, end});
     }
     return ans;

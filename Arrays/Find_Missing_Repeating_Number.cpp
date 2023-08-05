@@ -55,6 +55,7 @@ vector<int> find_Missing_Repeating(vector<int> &nums)
 
 vector<int> find_Missing_Repeating_Optimal(vector<int> &nums)
 {
+    int n=nums.size();
     long long SN = (n * (n + 1)) / 2;
     long long S2N = (SN * (2 * n + 1)) / 3;
     long long S = 0, S2 = 0;

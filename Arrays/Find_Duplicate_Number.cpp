@@ -39,7 +39,7 @@ int findDuplicate_Hashing(vector<int> &nums)
     }
     for (auto i : m)
     {
-        if (i.second == 2)
+        if (i.second >= 2)
             return i.first;
     }
 }

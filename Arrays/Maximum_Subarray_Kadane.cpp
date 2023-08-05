@@ -67,20 +67,20 @@ int Maximum_Subarray_Better(vector<int> &nums)
 }
 int Maximum_Subarray_Optimal_Kadane_LC53(vector<int> &nums)
 {
-        int n = nums.size();
-    int s = 0, ans1 = *max_element(nums.begin(),nums.end()), ans=0;
+    int n = nums.size();
+    int s = 0, ans1 = *max_element(nums.begin(), nums.end()), ans = 0;
 
     for (int i = 0; i < n; i++)
     {
-       s+=nums[i];
-       ans=max(s,ans);
-       if(s<0)
-       {
-           ans=max(s,ans);
-           s=0;
-       }
+        s += nums[i];
+        ans = max(s, ans);
+        if (s < 0)
+        {
+            // ans = max(s, ans); //We dont need this line
+            s = 0;
+        }
     }
-    if(ans==0)
+    if (ans == 0)
     {
         return ans1;
     }
@@ -88,18 +88,17 @@ int Maximum_Subarray_Optimal_Kadane_LC53(vector<int> &nums)
 }
 int Maximum_Subarray_Optimal_Kadane_CN(vector<int> &nums)
 {
-        int n = nums.size();
-    int s = 0, ans=0;
+    int n = nums.size();
+    int s = 0, ans = 0;
 
     for (int i = 0; i < n; i++)
     {
-       s+=nums[i];
-       ans=max(s,ans);
-       if(s<0)
-       {
-           ans=max(s,ans);
-           s=0;
-       }
+        s += nums[i];
+        ans = max(s, ans);
+        if (s < 0)
+        {
+            s = 0;
+        }
     }
     return ans;
 }
