@@ -29,28 +29,47 @@ using namespace std;
 #define checkbit(x, k) (x & (1LL << k))
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
+#define fast                          \
+    ios_base::sync_with_stdio(false); \
+    cin.tie(NULL);                    \
+    cout.tie(NULL)
 
-// Definition for singly-linked list.
-class ListNode
+string reverseWords(string s)
 {
+    string temp = "", str = "";
+    vector<string> ans;
 
-public:
-    int data;
-    ListNode *next;
-
-    // constructor
-      ListNode(int data)
+    for (int i = 0; i < s.length(); i++)
     {
-        this->data = data;
-        this->next = NULL;
-    }
-};
-ListNode *Delete(ListNode *l1)
-{
-    l1->data=l1->next->data;
-    l1->next=l1->next->next;
-}
+        while (s[i] != ' ' && i < s.length())
+        {
+            temp += s[i];
+            i++;
+        }
 
+        if (temp.length() != 0)
+        {
+            ans.push_back(temp);
+            temp = "";
+        }
+    }
+
+    for (int j = ans.size() - 1; j >= 0; j--)
+    {
+        str += ans[j];
+        if (j != 0)
+        {
+            str += " ";
+        }
+    }
+    ans.clear();
+    return str;
+}
 int main()
 {
+    string s;
+    cin >> s;
+    string ans = reverseWords(s);
+    cout << ans;
 }
+// nums = [2,7,11,15], target = 9

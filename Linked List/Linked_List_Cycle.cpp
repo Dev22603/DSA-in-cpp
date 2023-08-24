@@ -48,7 +48,7 @@ public:
 
 bool hasCycle(ListNode *Head)
 {
-    if (!Head ||!Head->next) return false;  // no cycle in empty or single node linked lists
+    if (!Head ||!Head->next) return false;  // no cycle in empty or single ListNode linked lists
     ListNode *slow=Head;
     ListNode *fast=Head;
     while (fast && fast->next)

@@ -30,27 +30,47 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-// Definition for singly-linked list.
-class ListNode
+ll Pow_x_n_BruteForce(double x, int n)
 {
-
-public:
-    int data;
-    ListNode *next;
-
-    // constructor
-      ListNode(int data)
+    double ans=1;
+    ll k=abs(n);
+    for (int  i = 0; i < k; i++)
     {
-        this->data = data;
-        this->next = NULL;
+        ans*=x;
     }
-};
-ListNode *Delete(ListNode *l1)
+    if(n<0)
+    return 1/ans;
+    else return ans;
+}
+ll Pow_x_n_Optimized(double x, int n)
 {
-    l1->data=l1->next->data;
-    l1->next=l1->next->next;
+    double ans=1;
+    ll k=abs(n);
+    while(k)
+    {
+        if(k%2==0)
+        {
+            x*=x;
+            k/=2;
+        }
+        else
+        {
+            ans*=x;
+            k--;
+        }
+    }
+    if(n<0)
+    return 1/ans;
+    else return ans;
 }
 
 int main()
 {
+    ll n;
+    cin >> n;
+    vll array(n);
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> array[i];
+    }
 }

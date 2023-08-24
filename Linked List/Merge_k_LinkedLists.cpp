@@ -35,18 +35,17 @@ class ListNode
 {
 
 public:
-    int data;
+    int val;
     ListNode *next;
 
     // constructor
-    ListNode(int data)
+    ListNode(int val)
     {
-        this->data = data;
+        this->val = val;
         this->next = NULL;
     }
 };
-
-ListNode *mergeTwoLists_External_Space(ListNode *list1, ListNode *list2)
+ListNode *mergelist(ListNode *list1, ListNode *list2)
 {
     if (list1 == NULL && list2 == NULL)
     {
@@ -61,75 +60,7 @@ ListNode *mergeTwoLists_External_Space(ListNode *list1, ListNode *list2)
         return list1;
     }
 
-    ListNode *ans = NULL;
-    ListNode *ret = NULL;
-    ListNode *h1 = list1;
-    ListNode *h2 = list2;
-    while (h1 != NULL && h2 != NULL)
-    {
-        if (h1->data > h2->data)
-        {
-            if (ans == NULL)
-            {
-                ans = h2;
-                ret = ans;
-                h2 = h2->next;
-            }
-            else
-            {
-                ans->next = h2;
-                ans = ans->next;
-                h2 = h2->next;
-            }
-        }
-        else
-        {
-            if (ans == NULL)
-            {
-                ans = h1;
-                ret = ans;
-                h1 = h1->next;
-            }
-            else
-            {
-                ans->next = h1;
-                ans = ans->next;
-                h1 = h1->next;
-            }
-        }
-    }
-
-    while (h1 != NULL)
-    {
-        ans->next = h1;
-        ans = ans->next;
-        h1 = h1->next;
-    }
-    while (h2 != NULL)
-    {
-        ans->next = h2;
-        ans = ans->next;
-        h2 = h2->next;
-    }
-
-    return ret;
-}
-ListNode *mergeTwoLists_In_Place(ListNode *list1, ListNode *list2)
-{
-    if (list1 == NULL && list2 == NULL)
-    {
-        return NULL;
-    }
-    if (list1 == NULL)
-    {
-        return list2;
-    }
-    if (list2 == NULL)
-    {
-        return list1;
-    }
-
-    if (list1->data > list2->data)
+    if (list1->val > list2->val)
     {
         swap(list1, list2);
     }
@@ -139,7 +70,7 @@ ListNode *mergeTwoLists_In_Place(ListNode *list1, ListNode *list2)
     {
 
         ListNode *temp = NULL;
-        while (list1 && list1->data <= list2->data)
+        while (list1 && list1->val <= list2->val)
         {
             temp = list1;
             list1 = list1->next;
@@ -149,7 +80,37 @@ ListNode *mergeTwoLists_In_Place(ListNode *list1, ListNode *list2)
     }
     return res;
 }
-
-int main()
+void Delete(ListNode *l1)
 {
+    if (l1->next->next == NULL)
+    {
+        l1->next = NULL;
+    }
+    l1->val = l1->next->val;
+    l1->next = l1->next->next;
+}
+ListNode *mergeKLists(vector<ListNode *> &lists)
+{
+    if (lists.size() == 0)
+        return NULL;
+    ListNode *head = new ListNode(0);
+    head = lists[0];
+
+    int n = lists.size();
+
+    for (int i = 1; i < n; i++)
+    {
+        head = mergelist(head, lists[i]);
+    }
+    // return head;
+    // ListNode* HEAD=head;
+    // while(HEAD && HEAD->next)
+    // {
+    //     if(HEAD->val==HEAD->next->val)
+    //     {
+    //         Delete(HEAD);
+    //     }
+    //     HEAD=HEAD->next;
+    // } for unique nodes
+    return head;
 }
