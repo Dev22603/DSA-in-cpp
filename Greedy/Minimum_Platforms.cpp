@@ -1,3 +1,4 @@
+
 #include <bits/stdc++.h>
 using namespace std;
 #define ll long long int
@@ -9,6 +10,8 @@ using namespace std;
 #define mpll map<ll, ll>
 #define ld long double
 #define float double
+#define Y cout << "YES\n"
+#define N cout << "NO\n"
 #define f(i, x, n) for (ll i = x; i < n; i++)
 #define rf(i, x, n) for (ll i = x; i >= n; i--)
 #define pb push_back
@@ -28,65 +31,52 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-void Combination_Optimal(int i, int n, int target, vector<int> &arr, vector<vector<int>> &ans, vector<int> &temp)
+
+int Minimum_Platforms(vector<int> &start, vector<int> &end)
 {
-    if (target == 0)
+    int n = start.size();
+    sort(start.begin(),start.end());
+    sort(end.begin(),end.end());
+    // for (int i = 0; i < n; i++)
+    // {
+    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
+    // }
+    
+    int answer=1,platforms=1;
+    int s=1,e=0;
+    while (s<n && e<n)
     {
-        ans.push_back(temp);
-        return;
-    }
-    if (i == n)
-    {
-        return;
-    }
-    if (arr[i] <= target)
-    {
-        temp.push_back(arr[i]);
-        Combination(i, n, target - arr[i], arr, ans, temp);
-        temp.pop_back();
-    }
-    Combination(i + 1, n, target, arr, ans, temp);
-}
-void Combination(int i, int n, int target, vector<int> &arr, vector<vector<int>> &ans, vector<int> &temp)
-{
-    if (i == n)
-    {
-        if (target == 0)
+        if(start[s]<= end[e])
         {
-            ans.push_back(temp);
+            platforms++;
+            s++;
+            answer=max(answer,platforms);
         }
-        return;
+        else if(start[s]>end[e])
+        {
+            answer=max(answer,platforms);
+            platforms--;
+            e++;
+        }
     }
-    if (arr[i] <= target)
-    {
-        temp.push_back(arr[i]);
-        Combination(i, n, target - arr[i], arr, ans, temp);
-        temp.pop_back();
-    }
-    Combination(i + 1, n, target, arr, ans, temp);
-}
-
-vector<vector<int>> combinationSum(vector<int> &arr, int k)
-{
-
-    vector<vector<int>> ans;
-    vector<int> temp;
-    int n = arr.size();
-    Combination(0, n, k, arr, ans, temp);
-    return ans;
+    
+    return answer;
+    
 }
 
 int main()
 {
     int n;
     cin >> n;
-    vector<int> array(n);
+    vector<int> start(n);
     for (ll i = 0; i < n; i++)
     {
-        cin >> array[i];
+        cin >> start[i];
     }
-    for (int i = 0; i < n; i++)
+    vector<int> end(n);
+    for (ll i = 0; i < n; i++)
     {
-        cout << array[i] << " ";
+        cin >> end[i];
     }
+    cout<<N_meetings(start, end);
 }
