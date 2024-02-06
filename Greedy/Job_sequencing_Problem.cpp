@@ -30,48 +30,41 @@ using namespace std;
 #define checkbit(x, k) (x & (1LL << k))
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
-
-
-int Minimum_Platforms(vector<int> &start, vector<int> &end)
+struct Job
 {
-    int n = start.size();
-    sort(start.begin(),start.end());
-    sort(end.begin(),end.end());
-    // for (int i = 0; i < n; i++)
-    // {
-    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
-    // }
-    
-    int answer=1,platforms=1;
-    int s=1,e=0;
-    while (s<n && e<n)
+    int id;     // Job Id
+    int dead;   // Deadline of job
+    int profit; // Profit if job is over before or on deadline
+};
+bool comp(Job a, Job b)
+{
+    return a.profit>b.profit;
+}
+vector<int> JobScheduling(Job arr[], int n)
+{
+    sort(arr,arr+n,comp);
+    int max_deadline=0;
+    for(int i=0;i<n;i++)
     {
-        if(start[s]<= end[e])
+        max_deadline=max(max_deadline,arr->dead);
+    }
+    vector<int> a(max_deadline+1,-1);
+    int count_jobs=0,max_profit=0;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = arr->dead; j > 0; j--)
         {
-            platforms++;
-            s++;
-            answer=max(answer,platforms);
-        }
-        else if(start[s]>end[e])
-        {
-            answer=max(answer,platforms);
-            platforms--;
-            e++;
+            a[j]=arr->id;
+            count_jobs++;
+            max_profit+=arr->profit;
+            break;
         }
     }
-    
-    return answer;
+    return {count_jobs,max_profit};
     
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> start(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> start[i];
-    }
-    vector<int> end(n);
+    return 0;
 }

@@ -1,3 +1,4 @@
+// https://www.codingninjas.com/studio/problems/minimal-cost_8180930?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -32,46 +33,37 @@ using namespace std;
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
 
-int Minimum_Platforms(vector<int> &start, vector<int> &end)
+int help(int n, vector<int> &height, vector<int> &dp, int k)
 {
-    int n = start.size();
-    sort(start.begin(),start.end());
-    sort(end.begin(),end.end());
-    // for (int i = 0; i < n; i++)
-    // {
-    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
-    // }
-    
-    int answer=1,platforms=1;
-    int s=1,e=0;
-    while (s<n && e<n)
+    if (n == 0)
     {
-        if(start[s]<= end[e])
+        return dp[n] = 0;
+    }
+    if (dp[n] != -1)
+    {
+        return dp[n];
+    }
+    int minCost = INT_MAX;
+
+    for (int i = 1; i <= k; i++)
+    {
+        if (n - i >= 0)
         {
-            platforms++;
-            s++;
-            answer=max(answer,platforms);
-        }
-        else if(start[s]>end[e])
-        {
-            answer=max(answer,platforms);
-            platforms--;
-            e++;
+            int cost = help(n - i, height, dp, k) + abs(height[n] - height[n - i]);
+            minCost = min(minCost, cost);
         }
     }
-    
-    return answer;
-    
+    return dp[n] = minCost;
+}
+
+int minimizeCost(int n, int k, vector<int> &height)
+{
+    // Write your code here.
+    vector<int> dp(n + 1, -1);
+    return help(n - 1, height, dp, k);
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> start(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> start[i];
-    }
-    vector<int> end(n);
+    int n = 100;
 }

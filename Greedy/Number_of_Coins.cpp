@@ -31,47 +31,22 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
-
-int Minimum_Platforms(vector<int> &start, vector<int> &end)
+int minCoins(int coins[], int M, int V)
 {
-    int n = start.size();
-    sort(start.begin(),start.end());
-    sort(end.begin(),end.end());
-    // for (int i = 0; i < n; i++)
-    // {
-    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
-    // }
-    
-    int answer=1,platforms=1;
-    int s=1,e=0;
-    while (s<n && e<n)
+    int ans = 0;
+    sort(coins, coins + M, greater<int>());
+    for (int i = 0; i < M; i++)
     {
-        if(start[s]<= end[e])
-        {
-            platforms++;
-            s++;
-            answer=max(answer,platforms);
-        }
-        else if(start[s]>end[e])
-        {
-            answer=max(answer,platforms);
-            platforms--;
-            e++;
-        }
+        int y = V / coins[i];
+        ans += y;
+        V = V % coins[i];
+        if (V == 0)
+            break;
     }
-    
-    return answer;
-    
+    return ans;
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> start(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> start[i];
-    }
-    vector<int> end(n);
+    return 0;
 }

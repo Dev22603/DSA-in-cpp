@@ -30,48 +30,34 @@ using namespace std;
 #define checkbit(x, k) (x & (1LL << k))
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
-
-
-int Minimum_Platforms(vector<int> &start, vector<int> &end)
+struct Item
 {
-    int n = start.size();
-    sort(start.begin(),start.end());
-    sort(end.begin(),end.end());
-    // for (int i = 0; i < n; i++)
-    // {
-    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
-    // }
-    
-    int answer=1,platforms=1;
-    int s=1,e=0;
-    while (s<n && e<n)
+    int value;
+    int weight;
+};
+bool comp(Item a, Item b)
+{
+    double r1, r2;
+    r1 = a.value / a.weight;
+    r2 = b.value / b.weight;
+    cout << r1 << ' ' << r2;
+    return r1 > r2;
+}
+double fractionalKnapsack(int W, Item arr[], int n)
+{
+    double ans=0;
+    for (int i = 0; i < n; i++)
     {
-        if(start[s]<= end[e])
-        {
-            platforms++;
-            s++;
-            answer=max(answer,platforms);
-        }
-        else if(start[s]>end[e])
-        {
-            answer=max(answer,platforms);
-            platforms--;
-            e++;
-        }
+        double ratio=(double)arr[i].value / arr[i].weight;
+        int weight=min(W, arr[i].weight);
+        W-=weight;
+        ans+=weight*ratio;
     }
-    
-    return answer;
+    return ans;
     
 }
 
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> start(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> start[i];
-    }
-    vector<int> end(n);
+    return 0;
 }

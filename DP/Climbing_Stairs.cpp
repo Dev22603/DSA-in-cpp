@@ -1,3 +1,4 @@
+// https://leetcode.com/problems/climbing-stairs/
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -31,47 +32,17 @@ using namespace std;
 #define togglebit(x, k) (x ^ (1LL << k))
 #define watch(x) cerr << (#x) << " is " << (x) << endl
 
+int dp[46];
 
-int Minimum_Platforms(vector<int> &start, vector<int> &end)
+int climbStairs(int n)
 {
-    int n = start.size();
-    sort(start.begin(),start.end());
-    sort(end.begin(),end.end());
-    // for (int i = 0; i < n; i++)
-    // {
-    //      cout<<ans[i].first.first<<" "<<ans[i].first.second<<" "<<ans[i].second<<endl;
-    // }
-    
-    int answer=1,platforms=1;
-    int s=1,e=0;
-    while (s<n && e<n)
-    {
-        if(start[s]<= end[e])
-        {
-            platforms++;
-            s++;
-            answer=max(answer,platforms);
-        }
-        else if(start[s]>end[e])
-        {
-            answer=max(answer,platforms);
-            platforms--;
-            e++;
-        }
-    }
-    
-    return answer;
-    
+    if (n <= 3)
+        return dp[n] = n;
+    if (dp[n] != 0)
+        return dp[n];
+    return dp[n] = climbStairs(n - 1) + climbStairs(n - 2);
 }
-
 int main()
 {
-    int n;
-    cin >> n;
-    vector<int> start(n);
-    for (ll i = 0; i < n; i++)
-    {
-        cin >> start[i];
-    }
-    vector<int> end(n);
+    return 0;
 }
