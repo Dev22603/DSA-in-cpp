@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-const int num1 = 1e5 + 10;
 vector<int> bfsOfGraph(int V, vector<int> adj[])
 {
     bool vis[V] = {0};
@@ -30,7 +29,7 @@ vector<int> bfsOfGraph(int V, vector<int> adj[])
 int main()
 {
 
-    int V, tem, E;
+    int V, E;
     cin >> V >> E;
     vector<int> adj[V];
     for (int i = 0; i < E; i++)
