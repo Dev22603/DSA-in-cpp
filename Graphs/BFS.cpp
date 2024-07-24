@@ -26,6 +26,31 @@ vector<int> bfsOfGraph(int V, vector<int> adj[])
     return BFS;
 }
 
+
+vector<int>bfsNode(vector<int>graph[],int V,int Vertex)
+{
+    vector<bool>vis(V);
+    vis[Vertex] = true;
+    queue<int>q;
+    q.push(Vertex);
+    vector<int>BFSOrder;
+    while(!q.empty())
+    {
+        int node=q.front();
+        q.pop();
+        BFSOrder.push_back(node+1);
+        for(int i:graph[node])
+        {
+            if(!vis[i])
+            {
+                vis[i]=1;
+                q.push(i+1);
+            }
+        }
+    }
+    return BFSOrder;
+}
+
 int main()
 {
 
