@@ -46,6 +46,22 @@ bool CYCLE_Undirected_Graph_DFS(int vertex, int parent, vector<int> graph[], boo
     }
     return isCycleExists;
 }
+bool CYCLE_Undirected_Graph_DFS_2(int node, int parent, vector<int> adj[], vector<int> &vis)
+{
+    vis[node] = 1;
+    for (auto adjNode : adj[node])
+    {
+        if (!vis[adjNode])
+        {
+            vis[adjNode] = 1;
+            if (CYCLE_Undirected_Graph_DFS_2(adjNode, node, adj, vis))
+                return true;
+        }
+        else if (parent != adjNode)
+            return true;
+    }
+    return false;
+}
 
 int main()
 {
