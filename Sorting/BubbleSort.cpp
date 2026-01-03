@@ -31,13 +31,6 @@ using namespace std;
     ios_base::sync_with_stdio(false); \
     cin.tie(NULL);                    \
     cout.tie(NULL)
-ll factorial(ll n)
-{
-    if (n == 0 || n == 1)
-        return 1;
-    else
-        return ((n * factorial(n - 1)));
-}
 ll fastprime(ll a)
 {
     if (a != 2 && a % 2 == 0 || a < 2)
@@ -47,60 +40,7 @@ ll fastprime(ll a)
             return 0;
     return 1;
 }
-int binary_search(vector<int> vec, int querry)
-{
-    int low, mid, high;
-    low = 0, high = vec.size() - 1;
-    cout << high << "high" << endl;
-    while (low <= high)
-    {
-        mid = low + (high - low) / 2;
 
-        if (vec[mid] == querry)
-        {
-            return mid;
-        }
-        else if (vec[low] == querry)
-        {
-            return low;
-        }
-        else if (vec[high] == querry)
-        {
-            return high;
-        }
-        else if (vec[mid] < querry)
-        {
-            low = mid + 1;
-            high--;
-        }
-        else if (querry < vec[mid])
-        {
-            high = mid - 1;
-            low++;
-        }
-    }
-    return -1;
-}
-vector<pair<int, int>> prime_factorisation(ll n)
-{
-    vector<pair<int, int>> primes;
-    for (int i = 2; i * i <= n; i++)
-    {
-        if (n % i == 0)
-        {
-            int cnt = 0;
-            while (n % i == 0)
-            {
-                cnt++;
-                n /= i;
-            }
-            primes.push_back({i, cnt});
-        }
-    }
-    if (n > 1)
-        primes.push_back({n, 1});
-    return primes;
-}
 void BubbleSort(vector<int> &arr)
 {
     int n = arr.size();
